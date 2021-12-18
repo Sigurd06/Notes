@@ -2,7 +2,7 @@ import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { UsersModule } from './modules/users/users.module';
-import { DatabaseModule } from './config/typeorm/postgres/database/database.module';
+import { DatabaseModule } from './config/typeorm/postgres/database';
 import { ConfigModule } from '@nestjs/config';
 
 @Module({
@@ -10,8 +10,8 @@ import { ConfigModule } from '@nestjs/config';
     ConfigModule.forRoot({
       isGlobal: true,
     }),
-    UsersModule,
     DatabaseModule,
+    UsersModule,
   ],
   controllers: [AppController],
   providers: [AppService],

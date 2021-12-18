@@ -1,11 +1,14 @@
 import { Module } from '@nestjs/common';
-import { UsersService } from './users.service';
 import { UsersController } from './users.controller';
 import { ExceptionsModule } from 'src/common/exceptions/exceptions.module';
+import { UserCreateUseCase } from './usecases';
+import { LoggerService } from 'src/common/logger/logger.service';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { UserRepository } from 'src/config/typeorm/postgres/database';
 
 @Module({
-  imports: [ExceptionsModule],
+  imports: [ExceptionsModule, TypeOrmModule.forFeature([UserRepository])],
   controllers: [UsersController],
-  providers: [UsersService],
+  providers: [LoggerService, UserCreateUseCase],
 })
 export class UsersModule {}
