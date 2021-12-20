@@ -13,6 +13,6 @@ export class UserController {
 
   @Post()
   async createUser(@Body() user: CreateUserDto) {
-    return this.createUserUsecase.getInstance().execute(user);
+    return await this.createUserUsecase.getInstance().execute(user);
   }
 }
