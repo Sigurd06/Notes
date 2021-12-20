@@ -1,6 +1,6 @@
 import { ILogger } from 'src/common/logger/interfaces/logger.interface';
 import { IUserRepository } from '../interfaces/repositories/repository.interface';
-import { IUserCreate } from '../interfaces/user/create.interface';
+import { IUserCreate } from '../interfaces/usecase/create.interface';
 
 export class CreateUserUseCases {
   constructor(
