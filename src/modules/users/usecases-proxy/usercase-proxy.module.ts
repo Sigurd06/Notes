@@ -6,6 +6,7 @@ import { UseCaseProxy } from 'src/modules/shared/usecases-proxy/usecases-proxy';
 import { CreateUserUseCases } from '../usescases/create.usecases';
 import { RepositoriesModule } from '../../shared/repositories/repository.module';
 import { DatabaseUserRepository } from '../../shared/repositories/user.repository';
+import { ExceptionsService } from 'src/common/exceptions/exceptions.service';
 
 @Module({
   imports: [LoggerModule, RepositoriesModule, ExceptionsModule],
@@ -18,12 +19,16 @@ export class UserUseCaseModule {
       module: UserUseCaseModule,
       providers: [
         {
-          inject: [LoggerService, DatabaseUserRepository],
+          inject: [LoggerService, ExceptionsService, DatabaseUserRepository],
           provide: UserUseCaseModule.POST_CREATE_USER,
           useFactory: (
             logger: LoggerService,
+            exceptions: ExceptionsService,
             userRepository: DatabaseUserRepository,
-          ) => new UseCaseProxy(new CreateUserUseCases(logger, userRepository)),
+          ) =>
+            new UseCaseProxy(
+              new CreateUserUseCases(logger, exceptions, userRepository),
+            ),
         },
       ],
       exports: [UserUseCaseModule.POST_CREATE_USER],
