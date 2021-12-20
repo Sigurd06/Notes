@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
+import { UserRepository } from 'src/common/database/postgres';
 import { ILogger } from 'src/common/logger/interfaces/logger.interface';
 import { LoggerService } from 'src/common/logger/logger.service';
-import { UserRepository } from 'src/config/typeorm/postgres/database';
 
 @Injectable()
 export class UserCreateUseCase {

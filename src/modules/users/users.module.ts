@@ -4,7 +4,7 @@ import { ExceptionsModule } from 'src/common/exceptions/exceptions.module';
 import { UserCreateUseCase } from './usecases';
 import { LoggerService } from 'src/common/logger/logger.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { UserRepository } from 'src/config/typeorm/postgres/database';
+import { UserRepository } from 'src/common/database/postgres';
 
 @Module({
   imports: [ExceptionsModule, TypeOrmModule.forFeature([UserRepository])],
