@@ -1,5 +1,8 @@
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import * as entities from '../../../../common/database/postgres/entities';
+
+const entitiesLists = Object.values(entities);
 
 export const DatabaseService = TypeOrmModule.forRootAsync({
   imports: [ConfigModule.forRoot()],
@@ -13,7 +16,7 @@ export const DatabaseService = TypeOrmModule.forRootAsync({
       password: configService.get('POSTGRES_PASSWORD'),
       database: configService.get('POSTGRES_DATABASE'),
       logging: false,
-      entities: [__dirname + '/../**/*.entity{.ts,.js}'],
+      entities: [...entitiesLists],
       synchronize: false,
     };
   },
