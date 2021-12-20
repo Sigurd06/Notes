@@ -1,23 +1,18 @@
-import { ConfigModule, ConfigService } from '@nestjs/config';
-import { TypeOrmModule } from '@nestjs/typeorm';
-import * as entities from '../../../../common/database/postgres/entities';
+import { TypeOrmModuleOptions } from '@nestjs/typeorm';
+import { EnvironmentConfigService } from 'src/config/environment/environment.config.service';
+import * as entities from '../../../../common/database/postgres';
 
-const entitiesLists = Object.values(entities);
-
-export const DatabaseService = TypeOrmModule.forRootAsync({
-  imports: [ConfigModule.forRoot()],
-  inject: [ConfigService],
-  useFactory: (configService: ConfigService) => {
-    return {
-      type: 'postgres',
-      host: configService.get('POSTGRES_HOST'),
-      port: configService.get('POSTGRES_PORT'),
-      username: configService.get('POSTGREST_USER'),
-      password: configService.get('POSTGRES_PASSWORD'),
-      database: configService.get('POSTGRES_DATABASE'),
-      logging: false,
-      entities: [...entitiesLists],
-      synchronize: false,
-    };
-  },
-});
+export const DatabaseService = (
+  config: EnvironmentConfigService,
+): TypeOrmModuleOptions =>
+  ({
+    type: 'postgres',
+    host: config.GET_DATABASE_HOST(),
+    port: config.GET_DATABASE_PORT(),
+    username: config.GET_DATABASE_USER(),
+    password: config.GET_DATABASE_PASSWORD(),
+    database: config.GET_DATABASE_NAME(),
+    logging: false,
+    entities: Object.values(entities),
+    synchronize: false,
+  } as TypeOrmModuleOptions);
