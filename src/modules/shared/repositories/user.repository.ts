@@ -1,10 +1,10 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { UserEntity } from 'src/common/database/postgres';
-import { IUserRepository } from 'src/modules/users/interfaces/repositories/repository.interface';
-import { IUser } from 'src/modules/users/interfaces/usecases/find.interface';
+import { IUserRepository } from 'src/modules/auth/interfaces/repositories/repository.interface';
+import { IUser } from 'src/modules/auth/interfaces/usecases/find.interface';
 import { Repository } from 'typeorm';
-import { IUserCreate } from '../../users/interfaces/usecases/create.interface';
+import { IUserCreate } from '../../auth/interfaces/usecases/create.interface';
 
 @Injectable()
 export class DatabaseUserRepository implements IUserRepository {
