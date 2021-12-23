@@ -7,12 +7,14 @@ import { CreateUserUseCases } from '../usescases/create.usecases';
 import { RepositoriesModule } from '../../shared/repositories/repository.module';
 import { DatabaseUserRepository } from '../../shared/repositories/user.repository';
 import { ExceptionsService } from 'src/common/exceptions/exceptions.service';
+import { LoginUserUseCase } from '../usescases/login.usecase';
 
 @Module({
   imports: [LoggerModule, RepositoriesModule, ExceptionsModule],
 })
 export class UserUseCaseModule {
   static POST_CREATE_USER = 'POST_CREATE_USER';
+  static POST_LOGIN_USER = 'POST_LOGIN_USER';
 
   static register(): DynamicModule {
     return {
@@ -30,8 +32,23 @@ export class UserUseCaseModule {
               new CreateUserUseCases(logger, exceptions, userRepository),
             ),
         },
+        {
+          inject: [LoggerService, ExceptionsService, DatabaseUserRepository],
+          provide: UserUseCaseModule.POST_LOGIN_USER,
+          useFactory: (
+            logger: LoggerService,
+            exceptions: ExceptionsService,
+            userRepository: DatabaseUserRepository,
+          ) =>
+            new UseCaseProxy(
+              new LoginUserUseCase(logger, exceptions, userRepository),
+            ),
+        },
       ],
-      exports: [UserUseCaseModule.POST_CREATE_USER],
+      exports: [
+        UserUseCaseModule.POST_CREATE_USER,
+        UserUseCaseModule.POST_LOGIN_USER,
+      ],
     };
   }
 }
